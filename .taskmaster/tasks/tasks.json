@@ -1,0 +1,220 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": "1",
+        "title": "Project Initialization and Environment Setup",
+        "description": "Set up the project directory structure, initialize the Python virtual environment, and install core dependencies.",
+        "details": "1. Create project structure: `backend/`, `frontend/css/`, `frontend/js/`. \n2. Initialize virtual environment: `python -m venv .venv`. \n3. Install dependencies: `pip install flask flask-cors python-dotenv groq`. \n4. Create `.gitignore` to exclude `.venv` and `.env`. \n5. Create `.env` file for `GROQ_API_KEY`.",
+        "testStrategy": "Verify directory structure exists. Run `pip list` to confirm flask, flask-cors, and groq are installed.",
+        "priority": "high",
+        "dependencies": [],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-02-20T08:30:27.045Z"
+      },
+      {
+        "id": "2",
+        "title": "Core Flask Backend with CORS",
+        "description": "Initialize the Flask application in backend/app.py with CORS support and basic error handling.",
+        "details": "1. Create `backend/app.py`. \n2. Initialize `app = Flask(__name__)`. \n3. Apply `CORS(app)`. \n4. Implement a health check endpoint `/health`. \n5. Set up basic logging and error handling boilerplate.",
+        "testStrategy": "Run `python backend/app.py` and access `http://localhost:5000/health` via browser or curl to ensure 200 OK.",
+        "priority": "high",
+        "dependencies": [
+          "1"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-02-20T08:31:20.896Z"
+      },
+      {
+        "id": "3",
+        "title": "Groq AI Service Integration",
+        "description": "Implement the AI conversion logic using the Groq API and the specific moonshotai model.",
+        "details": "1. In `app.py`, implement a POST endpoint `/api/convert`. \n2. Extract `text` and `target` (Upward, Lateral, External) from request body. \n3. Use `groq` client with `model='moonshotai/kimi-k2-instruct-0905'`. \n4. Define System Prompts for each target: \n   - Upward: Polite, formal, conclusion-first. \n   - Lateral: Respectful, cooperative, clear deadlines. \n   - External: Extremely polite, service-oriented, professional. \n5. Implement timeout logic (max 5s) and error catching.",
+        "testStrategy": "Use Postman to send a JSON POST to `/api/convert` with sample text and target. Verify AI response and correct tone.",
+        "priority": "high",
+        "dependencies": [
+          "2"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-02-20T08:33:08.022Z"
+      },
+      {
+        "id": "4",
+        "title": "Frontend HTML Structure (Responsive)",
+        "description": "Create the main HTML5 structure for the single-page application following the UI guidelines.",
+        "details": "1. Create `frontend/index.html`. \n2. Add `<header>` with title 'BizTone Converter'. \n3. Create a main container with two major columns/cards for 'Original' and 'Converted'. \n4. Add a `<textarea>` with `maxlength='500'`. \n5. Add radio buttons for target selection (Boss, Colleague, Customer). \n6. Add placeholders for character count and feedback buttons.",
+        "testStrategy": "Open `index.html` in a browser. Verify all elements (input, radio buttons, result area) are present.",
+        "priority": "medium",
+        "dependencies": [
+          "1"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-02-20T08:33:33.055Z"
+      },
+      {
+        "id": "5",
+        "title": "CSS Styling and Responsive Design",
+        "description": "Apply the visual style guide including colors, typography, and mobile-first responsiveness.",
+        "details": "1. Create `frontend/css/style.css`. \n2. Implement Primary Color `#4A90E2`, Background `#F5F7FA`, and Text `#333333`. \n3. Use Flexbox/Grid for the 2-column desktop layout. \n4. Add Media Queries to stack columns vertically for width < 768px. \n5. Implement card shadows, button hover states, and input focus effects as per PRD.",
+        "testStrategy": "Check UI on different screen sizes (inspect tool). Verify primary color is used on buttons and focus states.",
+        "priority": "medium",
+        "dependencies": [
+          "4"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-02-20T08:33:38.676Z"
+      },
+      {
+        "id": "6",
+        "title": "Frontend Core JS: Input and Character Count",
+        "description": "Implement client-side logic for real-time character counting and UI state management.",
+        "details": "1. Create `frontend/js/script.js`. \n2. Add event listener `input` on the textarea. \n3. Update a text element with `currentLength/500`. \n4. Add logic to disable the 'Convert' button if input is empty or exceeds 500 chars.",
+        "testStrategy": "Type in the textarea and ensure the counter updates correctly. Verify character limit enforcement.",
+        "priority": "medium",
+        "dependencies": [
+          "4"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-02-20T08:33:52.414Z"
+      },
+      {
+        "id": "7",
+        "title": "Frontend-Backend Integration (Async Fetch)",
+        "description": "Implement the API call logic to connect the UI with the Flask backend.",
+        "details": "1. In `script.js`, handle the 'Convert' button click. \n2. Show a spinner inside the button. \n3. Call `fetch('/api/convert', { method: 'POST', ... })`. \n4. Display result in the right-side container. \n5. Implement `FR-05`: Show error message if API fails and provide a 'Retry' mechanism.",
+        "testStrategy": "Submit text to convert. Ensure loading spinner appears, then result displays. Simulate a 500 error from backend to check error message.",
+        "priority": "high",
+        "dependencies": [
+          "3",
+          "6"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-02-20T08:33:52.420Z"
+      },
+      {
+        "id": "8",
+        "title": "Clipboard and UI Feedback Implementation",
+        "description": "Implement the copy-to-clipboard functionality and visual feedback messages.",
+        "details": "1. Implement `FR-03`: Use `navigator.clipboard.writeText` to copy the result. \n2. Create a temporary toast or text notification '복사되었습니다!' (Copied!) upon success. \n3. Apply Success color `#50E3C2` for the feedback notification.",
+        "testStrategy": "Click 'Copy' button after conversion. Paste in another app to verify content. Check for the visual feedback message.",
+        "priority": "medium",
+        "dependencies": [
+          "7"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-02-20T08:33:52.425Z"
+      },
+      {
+        "id": "9",
+        "title": "User Feedback System (Helpful/Not Helpful)",
+        "description": "Implement the simple feedback buttons to collect user satisfaction data.",
+        "details": "1. Add 'Helpful' and 'Not Helpful' buttons to the result card. \n2. Implement JS listener to send a POST to `/api/feedback`. \n3. Backend endpoint simply logs the feedback for now as per 'Want' requirement (FR-06).",
+        "testStrategy": "Click feedback buttons and verify the request is sent in the Network tab. Check server logs for the feedback entry.",
+        "priority": "low",
+        "dependencies": [
+          "7"
+        ],
+        "status": "done",
+        "subtasks": [],
+        "updatedAt": "2026-02-20T08:35:07.418Z"
+      },
+      {
+        "id": "10",
+        "title": "Deployment Configuration (Vercel)",
+        "description": "Prepare the application for deployment on Vercel including serverless function config.",
+        "details": "1. Create `vercel.json` to route `/api/*` to the Flask serverless function. \n2. Ensure `requirements.txt` is updated. \n3. Configure static file routing for the `frontend/` directory. \n4. Set up environment variables in Vercel Dashboard for `GROQ_API_KEY`.",
+        "testStrategy": "Deploy to Vercel preview branch. Verify both static UI and API endpoints work in the production URL.",
+        "priority": "medium",
+        "dependencies": [
+          "8",
+          "9"
+        ],
+        "status": "done",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create vercel.json for API and Static Routing",
+            "description": "Configure the project's entry points and routing rules for Vercel's deployment engine.",
+            "dependencies": [],
+            "details": "Create a `vercel.json` file in the root directory. Define 'builds' for the Python backend and 'routes' to redirect `/api/(.*)` to the backend script and the root to the `frontend/` directory.",
+            "status": "done",
+            "testStrategy": "Run 'vercel dev' locally to ensure that requests to /api are correctly proxied to the Flask server.",
+            "parentId": "undefined",
+            "updatedAt": "2026-02-20T08:35:07.430Z"
+          },
+          {
+            "id": 2,
+            "title": "Prepare Backend for Serverless Compatibility",
+            "description": "Adjust the Flask application to run as a serverless function on Vercel.",
+            "dependencies": [
+              1
+            ],
+            "details": "Ensure `backend/requirements.txt` is up-to-date with all dependencies (Flask, flask-cors, etc.). If necessary, create a symbolic link or entry point file like `api/index.py` that exports the Flask 'app' instance for Vercel's Python runtime.",
+            "status": "done",
+            "testStrategy": "Trigger a Vercel preview deployment and monitor the build logs for successful dependency installation and serverless function detection.",
+            "parentId": "undefined",
+            "updatedAt": "2026-02-20T08:35:07.435Z"
+          },
+          {
+            "id": 3,
+            "title": "Optimize Frontend for Vercel Deployment",
+            "description": "Configure the frontend assets to be served efficiently as static files.",
+            "dependencies": [
+              1
+            ],
+            "details": "Verify the project structure ensures `frontend/index.html` is accessible. Update any internal script/link tags to use relative paths compatible with Vercel's static file serving and ensure CSS/JS files are correctly mapped in `vercel.json`.",
+            "status": "done",
+            "testStrategy": "Access the production URL and verify that all CSS, JS, and image assets load with a 200 OK status.",
+            "parentId": "undefined",
+            "updatedAt": "2026-02-20T08:35:07.439Z"
+          },
+          {
+            "id": 4,
+            "title": "Configure Environment Variables and Security Headers",
+            "description": "Set up secrets and security configurations within the Vercel environment.",
+            "dependencies": [
+              2
+            ],
+            "details": "Add `GROQ_API_KEY` to the Vercel Dashboard Environment Variables section. In `vercel.json`, implement security headers such as `X-Content-Type-Options`, `X-Frame-Options`, and `Content-Security-Policy` where applicable.",
+            "status": "done",
+            "testStrategy": "Invoke an API endpoint that requires the API key and verify it functions correctly without exposing the key in the client-side code.",
+            "parentId": "undefined",
+            "updatedAt": "2026-02-20T08:35:07.443Z"
+          },
+          {
+            "id": 5,
+            "title": "Production Validation and Performance Audit",
+            "description": "Conduct a final check of the deployed application including SSL, speed, and Lighthouse metrics.",
+            "dependencies": [
+              3,
+              4
+            ],
+            "details": "Verify SSL certificate status in Vercel settings. Run a Google Lighthouse audit on the production URL to check Performance and Accessibility. Test API response latency to ensure the cold start of the serverless function is within acceptable limits.",
+            "status": "done",
+            "testStrategy": "Review Lighthouse report for scores > 90 and manually verify SSL certificate validity in the browser.",
+            "parentId": "undefined",
+            "updatedAt": "2026-02-20T08:35:07.446Z"
+          }
+        ],
+        "updatedAt": "2026-02-20T08:35:07.446Z"
+      }
+    ],
+    "metadata": {
+      "version": "1.0.0",
+      "lastModified": "2026-02-20T08:35:07.446Z",
+      "taskCount": 10,
+      "completedCount": 10,
+      "tags": [
+        "master"
+      ]
+    }
+  }
+}

@@ -1,0 +1,63 @@
+/* Custom styles for BizTone Converter based on PRD */
+
+:root {
+    --primary-color: #4A90E2;
+    --primary-hover: #5DA1F3;
+    --secondary-bg: #F5F7FA;
+    --success-color: #50E3C2;
+    --error-color: #D0021B;
+    --border-color: #E0E6ED;
+    --text-color: #333333;
+}
+
+body {
+    background-color: var(--secondary-bg);
+    color: var(--text-color);
+    font-family: 'Pretendard', 'Noto Sans KR', sans-serif;
+}
+
+.card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+}
+
+.btn {
+    border-radius: 4px;
+    font-weight: 700;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-hover);
+}
+
+.persona-btn.active {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+}
+
+.input-box:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    ring: 2px var(--primary-color);
+}
+
+#outputText {
+    min-height: 12rem;
+    background-color: #F9FAFB;
+}
+
+.char-counter.error {
+    color: var(--error-color);
+}

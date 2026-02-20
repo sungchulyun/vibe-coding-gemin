@@ -4,49 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BizTone Converter - 업무 말투 변환기</title>
-    <link rel="stylesheet" href="css/style.css">
+    <!-- Tailwind CSS CDN (Local build issues encountered) -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/custom.css">
 </head>
-<body>
-    <header>
-        <h1>BizTone Converter</h1>
-        <p>누구나 쉽고 빠르게, 전문가처럼 소통하는 법</p>
+<body class="font-sans text-gray-800 flex flex-col items-center min-h-screen">
+    <header class="text-center py-12 px-4 w-full">
+        <h1 class="text-5xl font-bold text-blue-600 mb-3">BizTone Converter</h1>
+        <p class="text-xl text-gray-600">전문적인 비즈니스 말투로 당신의 생각을 변환하세요</p>
     </header>
-    <main>
-        <div class="converter-container">
-            <div class="input-section card">
-                <h2>원문 입력</h2>
-                <textarea id="inputText" placeholder="변환할 텍스트를 입력하세요..."></textarea>
-                <div class="char-counter">
+
+    <main class="w-full max-w-6xl px-6 flex-grow pb-12">
+        <!-- Persona Selection -->
+        <div class="options-section text-center mb-10">
+            <h2 class="text-xl font-bold mb-4 text-gray-700">누구에게 메시지를 보내시나요?</h2>
+            <div class="persona-buttons flex justify-center gap-3">
+                <button class="btn persona-btn active px-6 py-2" data-persona="상사">상사에게</button>
+                <button class="btn persona-btn px-6 py-2" data-persona="동료">동료에게</button>
+                <button class="btn persona-btn px-6 py-2" data-persona="고객">고객에게</button>
+            </div>
+        </div>
+
+        <!-- Main Layout: 2 Columns on Desktop, 1 on Mobile -->
+        <div class="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-6 items-start mb-10">
+            <div class="input-section card h-full">
+                <h2 class="text-lg font-bold mb-3 border-b pb-2">원문 입력</h2>
+                <textarea id="inputText" maxlength="500" placeholder="상황을 설명하거나 간단한 문장을 입력하세요. (예: 오늘 좀 늦을 것 같아요)" class="w-full h-64 p-4 text-base resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 border rounded-md"></textarea>
+                <div class="char-counter text-right text-sm text-gray-500 mt-2">
                     <span id="currentChar">0</span> / 500
                 </div>
             </div>
 
-            <div class="arrow-section">
-                <span>&rarr;</span>
+            <div class="flex items-center justify-center py-4 md:py-0">
+                <div class="bg-blue-100 text-blue-600 rounded-full p-3 transform md:rotate-0 rotate-90">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                    </svg>
+                </div>
             </div>
 
-            <div class="output-section card">
-                <h2>변환 결과</h2>
-                <div id="outputText" class="output-box"></div>
-                <button id="copyButton" class="btn">복사하기</button>
-            </div>
-        </div>
-
-        <div class="options-section">
-            <h2>누구에게 보내나요?</h2>
-            <div class="persona-buttons">
-                <button class="btn persona-btn active" data-persona="상사">상사에게</button>
-                <button class="btn persona-btn" data-persona="동료">동료에게</button>
-                <button class="btn persona-btn" data-persona="고객">고객에게</button>
+            <div class="output-section card h-full">
+                <h2 class="text-lg font-bold mb-3 border-b pb-2">변환 결과</h2>
+                <div id="outputText" class="w-full h-64 p-4 text-base bg-gray-50 overflow-y-auto whitespace-pre-wrap border rounded-md mb-4 text-gray-400">
+                    변환하기 버튼을 누르면 여기에 결과가 나타납니다.
+                </div>
+                <div id="feedbackSection" class="hidden mb-4 flex items-center justify-between px-2">
+                    <span class="text-sm text-gray-600">이 결과가 도움이 되었나요?</span>
+                    <div class="flex gap-2">
+                        <button class="feedback-btn flex items-center gap-1 text-sm text-blue-600 hover:bg-blue-50 px-2 py-1 rounded" data-value="helpful">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                            </svg>
+                            도움됨
+                        </button>
+                        <button class="feedback-btn flex items-center gap-1 text-sm text-red-600 hover:bg-red-50 px-2 py-1 rounded" data-value="not-helpful">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14H5.236a2 2 0 01-1.789-2.894l3.5-7A2 2 0 018.737 3h4.017c.163 0 .326.02.485.06L17 4m-7 10V19a2 2 0 002 2h.095c.5 0 .905-.405.905-.905 0-.714.211-1.412.608-2.006L17 13V4m-7 10h2m5-6h2a2 2 0 012 2v6a2 2 0 01-2 2h-2.5" />
+                            </svg>
+                            별로임
+                        </button>
+                    </div>
+                </div>
+                <button id="copyButton" class="btn btn-primary w-full py-3">결과 복사하기</button>
             </div>
         </div>
         
-        <button id="convertButton" class="btn btn-primary">변환하기</button>
+        <button id="convertButton" class="btn btn-primary block w-64 mx-auto text-xl py-4 shadow-lg hover:scale-105 transition-transform">
+            AI 말투 변환하기
+        </button>
     </main>
-    <footer>
+
+    <footer class="text-center py-5 text-sm text-gray-500 w-full">
         <p>&copy; 2024 BizTone. All Rights Reserved.</p>
     </footer>
     <script src="js/script.js"></script>
