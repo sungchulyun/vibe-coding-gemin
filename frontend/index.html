@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BizTone Converter - 업무 말투 변환기</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>BizTone Converter</h1>
+        <p>누구나 쉽고 빠르게, 전문가처럼 소통하는 법</p>
+    </header>
+    <main>
+        <div class="converter-container">
+            <div class="input-section card">
+                <h2>원문 입력</h2>
+                <textarea id="inputText" placeholder="변환할 텍스트를 입력하세요..."></textarea>
+                <div class="char-counter">
+                    <span id="currentChar">0</span> / 500
+                </div>
+            </div>
+
+            <div class="arrow-section">
+                <span>&rarr;</span>
+            </div>
+
+            <div class="output-section card">
+                <h2>변환 결과</h2>
+                <div id="outputText" class="output-box"></div>
+                <button id="copyButton" class="btn">복사하기</button>
+            </div>
+        </div>
+
+        <div class="options-section">
+            <h2>누구에게 보내나요?</h2>
+            <div class="persona-buttons">
+                <button class="btn persona-btn active" data-persona="상사">상사에게</button>
+                <button class="btn persona-btn" data-persona="동료">동료에게</button>
+                <button class="btn persona-btn" data-persona="고객">고객에게</button>
+            </div>
+        </div>
+        
+        <button id="convertButton" class="btn btn-primary">변환하기</button>
+    </main>
+    <footer>
+        <p>&copy; 2024 BizTone. All Rights Reserved.</p>
+    </footer>
+    <script src="js/script.js"></script>
+</body>
+</html>
